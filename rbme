@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 #
 # RSYNC BACKUP MADE EASY - RBME
 #
@@ -62,6 +62,7 @@
 #
 # GSS	Schlomo Schapiro  <rbme@schlomo.schapiro.org>
 # FBU	Fridtjof Busse	  <fbusse@probusiness.de>
+# GDH   Gratien Dhaese    <gratien.dhaese@gmail.com>
 #
 # Versions:
 CHANGES='
@@ -88,9 +89,10 @@ CHANGES='
 2009-09-27 GSS	Display free space in usage
 2013-12-08 GSS	Update URLs, version schema, default excludes, prevent backup to / file-system, read /etc/rbme.local.conf
 2015-03-26 GSS  Exclude typical in-memory stuff by default
+2025-11-17 GDH  list only lastbackups starting with 20* (for the year)
 '
 
-COPYRIGHT="Copyright (C) 2006-2013 Schlomo Schapiro"
+COPYRIGHT="Copyright (C) 2006-2025 Schlomo Schapiro"
 LICENSE="Licensed under the GNU General Public License, see
 http://www.gnu.org/licenses/gpl.html for full text"
 
@@ -286,7 +288,7 @@ function fixfreespaceforhost () {
 	# this list is already sorted in chronological order (due to natural sorting of
 	# YYYY-MM-dd
 
-	backups=( $(ls -d "$BACKUP_PATH/$client/"*-*-* | grep -v $today | sort) )
+	backups=( $(ls -d "$BACKUP_PATH/$client/"20*-*-* | grep -v $today | sort) )
 
 	# lastbackup is last value in array or path for today
 	if test ${#backups[@]} -gt 0 ; then

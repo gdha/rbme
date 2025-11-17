@@ -1,12 +1,17 @@
 DPKG=dpkg
 DPKG_OPTS=-b
+name = rbme
+specfile = $(name).spec
+
 .PHONY: info repo deb
 
 TOPLEVEL = rbme rbme.conf DEBIAN
 
 GITREV := HEAD
 
-VERSION := $(shell git rev-list $(GITREV) -- $(TOPLEVEL) 2>/dev/null| wc -l)$(EXTRAREV)
+VERSION := $(shell awk 'BEGIN { FS=":" } /^Version:/ { print $$2}' $(specfile) | sed -e 's/ //g' -e 's/\$$//')
+#VERSION := $(shell git rev-list $(GITREV) -- $(TOPLEVEL) 2>/dev/null| wc -l)$(EXTRAREV)
+distversion = $(VERSION)
 
 info: deb
 	dpkg-deb -I out/*_all.deb
@@ -31,10 +36,21 @@ deb:	clean
 	lintian --suppress-tags binary-without-manpage -i out/*_all.deb
 	git add -A
 
-repo: deb
-	../putinrepo.sh out/*_all.deb
 
 clean:
 	rm -fr out build
 
+dist: clean dist/$(name)-$(distversion).tar.gz
 
+dist/$(name)-$(distversion).tar.gz:
+	@echo -e "\033[1m== Building archive $(name)-$(distversion) ==\033[0;0m"
+	mkdir -p -m 0755 dist;
+	tar -czf dist/$(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' \
+	Makefile rbme* LICENSE README NEWS
+
+rpm: dist
+	@echo -e "\033[1m== Building RPM package $(name)-$(distversion)==\033[0;0m"
+	rpmbuild -ta --clean \
+		--define "_rpmfilename dist/%%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" \
+		--define "debug_package %{nil}" \
+		--define "_rpmdir %(pwd)" dist/$(name)-$(distversion).tar.gz
