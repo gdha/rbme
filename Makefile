@@ -44,7 +44,7 @@ dist: clean dist/$(name)-$(distversion).tar.gz
 dist/$(name)-$(distversion).tar.gz:
 	@echo -e "\033[1m== Building archive $(name)-$(distversion) ==\033[0;0m"
 	mkdir -p -m 0755 dist;
-	sed -i -e 's/Version: .*/Version: $(distversion)/' rbme.spec;
+	sed -i -e 's/^Version: .*/Version: $(distversion)/' rbme.spec;
 	tar -czf dist/$(name)-$(distversion).tar.gz --transform='s,^,$(name)-$(distversion)/,S' \
 	Makefile rbme* LICENSE README NEWS
 

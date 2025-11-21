@@ -1,6 +1,6 @@
 Summary: RSYNC BACKUP MADE EASY
 Name: rbme
-Version: 1.8
+Version: 1.9
 Release: 1
 Source: rbme-%{version}.tar.gz
 License: GPL
@@ -30,24 +30,25 @@ See the project homepage at http://schapiro.org/schlomo/projects/rbme.php for
 more details and examples.
 
 %changelog
+* Fri Nov 21 2025 Gratien Dhaese
+- Fixed the exclude list (replaced spaces with tabs (SC1040)
+- Updated to rbme 1.8
 * Tue Aug 31 2009 Schlomo Schapiro
 - Updated to rbme 1.6
 - Fixed RPM dependancy for lockfile (provided by procmail)
-
 * Thu Jun 04 2009 Schlomo Schapiro
 - Updated to rbme 1.5
 - Fixed RPM dependancies for ssh to work also for non-SUSE distros
-
 * Tue Apr 07 2009 Schlomo Schapiro
 - Removed Provides: rbme to build on suse 11.0++
 * Tue May 20 2008 Schlomo Schapiro
-- Version: 1.8
+- Version 1.4
 * Thu Jan 03 2008 Schlomo Schapiro
-- Version: 1.8
+- Version 1.3
 * Thu Dec 27 2007 Schlomo Schapiro
-- Version: 1.8
+- Version 1.2
 * Sat Nov 10 2007 Schlomo Schapiro
-- Version: 1.8
+- Version 1.1
 * Tue Sep 12 2007 Schlomo Schapiro
 - Initial Release
 
