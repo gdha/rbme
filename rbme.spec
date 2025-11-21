@@ -1,6 +1,6 @@
 Summary: RSYNC BACKUP MADE EASY
 Name: rbme
-Version: 1.6
+Version: 1.8
 Release: 1
 Source: rbme-%{version}.tar.gz
 License: GPL
@@ -41,13 +41,13 @@ more details and examples.
 * Tue Apr 07 2009 Schlomo Schapiro
 - Removed Provides: rbme to build on suse 11.0++
 * Tue May 20 2008 Schlomo Schapiro
-- Version 1.4
+- Version: 1.8
 * Thu Jan 03 2008 Schlomo Schapiro
-- Version 1.3
+- Version: 1.8
 * Thu Dec 27 2007 Schlomo Schapiro
-- Version 1.2
+- Version: 1.8
 * Sat Nov 10 2007 Schlomo Schapiro
-- Version 1.1
+- Version: 1.8
 * Tue Sep 12 2007 Schlomo Schapiro
 - Initial Release
 

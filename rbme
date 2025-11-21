@@ -60,7 +60,7 @@
 #
 # Authors:
 #
-# GSS	Schlomo Schapiro  <rbme@schlomo.schapiro.org>
+# GSS	Schlomo Schapiro  <chlom+rbme@schapiro.org>
 # FBU	Fridtjof Busse	  <fbusse@probusiness.de>
 # GDH   Gratien Dhaese    <gratien.dhaese@gmail.com>
 #
@@ -90,7 +90,7 @@ CHANGES='
 2013-12-08 GSS	Update URLs, version schema, default excludes, prevent backup to / file-system, read /etc/rbme.local.conf
 2015-03-26 GSS  Exclude typical in-memory stuff by default
 2019-09-27 GSS	Use more modern SSH ciphers, blowfish-cbc is no longer supported
-2025-11-17 GDH  list only lastbackups starting with 20* (for the year)
+2025-11-17 GDH  list only lastbackups starting with [123]* (for the year)
 '
 
 COPYRIGHT="Copyright (C) 2006-2025 Schlomo Schapiro"
@@ -289,7 +289,7 @@ function fixfreespaceforhost () {
 	# this list is already sorted in chronological order (due to natural sorting of
 	# YYYY-MM-dd
 
-	backups=( $(ls -d "$BACKUP_PATH/$client/"20*-*-* | grep -v $today | sort) )
+	backups=( $(ls -d "$BACKUP_PATH/$client/"[123]*-*-* | grep -v $today | sort) )
 
 	# lastbackup is last value in array or path for today
 	if test ${#backups[@]} -gt 0 ; then
@@ -550,19 +550,20 @@ for source in "$@" ; do
 		$RSYNC $RSYNC_EXTRA_OPTIONS --link-dest="$lastbackup/" --relative -aSH \
 			--ignore-errors $rsync_mountpoints_option \
 			--exclude-from=<(
-                    # Exclude typical in-memory stuff by default
-                    cat <<-EOF
-                    /proc/*
-                    /run/*
-                    /sys/*
-                    /dev/shm/*
-                    /dev/pts/*
-                    /**/lost+found/*
-                    /**/.gvfs
-                    EOF
+			# Exclude typical in-memory stuff by default
+			cat <<-EOF
+				/proc/*
+				/run/*
+				/sys/*
+				/dev/shm/*
+				/dev/pts/*
+				/**/lost+found/*
+				/**/.gvfs
+			EOF
 					# Standard backup-excludes.lst, only needed if rsync_mountpoints_option is not set
 					test "$rsync_mountpoints_option" || cat <<-EOF
 					/tmp/*
+					/var/tmp/*
 					/mnt/*
 					/media/*
 					/vmfs/*
@@ -698,7 +699,7 @@ test "$STATISTICS" && {
 	total=0
 	shopt -u nullglob
 	for dir in * ; do 
-		n=$(ls -d -1 $dir/*-*-* 2>/dev/null | wc -l)
+		n=$(ls -d -1 $dir/[123]*-*-* 2>/dev/null | wc -l)
 		test $n -gt 0 || continue
 		dirs[c]=$dir
 		history[c]=$n
